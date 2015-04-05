@@ -3,7 +3,6 @@ package simpleGameDemo;
 import com.leleusoft.gameframework.Game;
 import com.leleusoft.gameframework.Graphics;
 import com.leleusoft.gameframework.Graphics.ImageFormat;
-import com.leleusoft.gameframework.implementation.AndroidGraphics;
 import com.leleusoft.gameframework.implementation.AndroidScreen;
 
 public class LoadingScreen extends AndroidScreen {
@@ -19,18 +18,18 @@ public class LoadingScreen extends AndroidScreen {
 	 */
 	@Override
 	public void updateParams() {
-		
+
 
 	}
-	
-	
+
+
 	@Override
 	public void update(float deltaTime) {		
 		//here we will load some game elements needed to the nextScreen (menu screen)
 		Graphics g = game.getGraphics();
 		GameAssets.hello_world_img = g.newImage("helloworld.png", ImageFormat.ARGB8888);
-		
-		
+		GameAssets.player_cannon = g.newImage("player_cannon.png",  ImageFormat.ARGB8888);
+
 		game.setScreen(new MainScreen(game));
 		//super.update(deltaTime); 
 	}
