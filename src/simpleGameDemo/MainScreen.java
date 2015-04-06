@@ -19,8 +19,6 @@ public class MainScreen extends AndroidScreen {
 	FloatingHelloWorld floatingObject;
 	PlayerCannon cannon;
 	
-	
-	
 	public MainScreen(Game game) {
 		super(game);
 		cannon = new PlayerCannon(game.getGraphics().getWidth()/2, GameAssets.player_cannon);		
