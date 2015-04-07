@@ -5,14 +5,14 @@ import android.graphics.Point;
 
 import com.leleusoft.gameframework.Image;
 
-public class PlayerCannon {
-	//canvas size = 640x360 //scaled related to 360
+public class PlayerCannon extends GenericGameObject{
+	//canvas size = anything x 448 //scaled related to 448 in device aspect ratio
 	private static final int MIN_X_POSITION = 10;
-	private static final int STEP = 4;
-	private static final int MAX_X_POSITION = 320;
-	private static final int Y_POSITION = 60; //related to the bottom of the screen
+	private static final int STEP = 5;
+	private static final int MAX_X_POSITION = 448 -(10+20);
+	private static final int Y_POSITION = 160; //related to the bottom of the screen
 	
-	Point position;
+	
 	Image image;
 	boolean isMoving;
 	
@@ -20,16 +20,16 @@ public class PlayerCannon {
 
 	MovingDirection movingDirecion;
 	
-	public PlayerCannon(int initialPosition, Image img)
+	public PlayerCannon(Point point, Image img)
 	{
-		position = new Point(initialPosition, Y_POSITION);
+		position = new Point(point.x, point.y-Y_POSITION);
 		image = img;
 		isMoving = false;
 		movingDirecion=MovingDirection.STAY;
 	}
 	
 	
-	public void update()
+	public void update(long ignoredParam) //the cannon itself doesn't have animation
 	{
 		if(isMoving){
 			switch(movingDirecion)
@@ -51,17 +51,7 @@ public class PlayerCannon {
 	public Image getImage()
 	{
 		return image;
-	}
-	
-	public int getXPosition()
-	{
-		return position.x;
-	}
-	
-	public int getYPosition()
-	{
-		return position.y;
-	}
+	}	
 	
 	private void moveLeft()
 	{
@@ -88,6 +78,8 @@ public class PlayerCannon {
 	public void setMovingDirecion(MovingDirection movingDirecion) {
 		this.movingDirecion = movingDirecion;
 	}
+
+
 	
 	
 }

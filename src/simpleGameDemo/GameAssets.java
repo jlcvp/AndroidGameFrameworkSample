@@ -1,8 +1,13 @@
 package simpleGameDemo;
 
 import com.leleusoft.gameframework.Image;
+import com.leleusoft.gameframework.Sound;
 
 public class GameAssets {
-	public static Image hello_world_img;
+	
 	public static Image player_cannon;
+	public static Image[] alien1;
+	public static Image dead_alien;
+	public static Sound shoot_sound;
+
 }
