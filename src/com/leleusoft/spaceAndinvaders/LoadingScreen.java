@@ -1,4 +1,4 @@
-package spaceAndinvaders;
+package com.leleusoft.spaceAndinvaders;
 
 import com.leleusoft.gameframework.Game;
 import com.leleusoft.gameframework.Graphics;

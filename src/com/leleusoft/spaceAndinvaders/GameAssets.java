@@ -1,4 +1,4 @@
-package spaceAndinvaders;
+package com.leleusoft.spaceAndinvaders;
 
 import com.leleusoft.gameframework.Image;
 import com.leleusoft.gameframework.Sound;

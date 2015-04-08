@@ -1,4 +1,4 @@
-package spaceAndinvaders.gameElements;
+package com.leleusoft.spaceAndinvaders.gameElements;
 
 import android.graphics.Point;
 import android.graphics.Rect;

@@ -1,4 +1,4 @@
-package spaceAndinvaders.frameworkHelpers;
+package com.leleusoft.spaceAndinvaders.frameworkHelpers;
 
 import java.util.ArrayList;
 

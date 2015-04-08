@@ -1,12 +1,8 @@
-package spaceAndinvaders;
+package com.leleusoft.spaceAndinvaders;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import spaceAndinvaders.gameElements.Alien;
-import spaceAndinvaders.gameElements.FloatingHelloWorld;
-import spaceAndinvaders.gameElements.PlayerCannon;
-import spaceAndinvaders.gameElements.Projectile;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,6 +17,10 @@ import com.leleusoft.gameframework.Input.TouchEvent;
 import com.leleusoft.gameframework.Sound;
 import com.leleusoft.gameframework.implementation.AndroidGraphics;
 import com.leleusoft.gameframework.implementation.AndroidScreen;
+import com.leleusoft.spaceAndinvaders.gameElements.Alien;
+import com.leleusoft.spaceAndinvaders.gameElements.FloatingHelloWorld;
+import com.leleusoft.spaceAndinvaders.gameElements.PlayerCannon;
+import com.leleusoft.spaceAndinvaders.gameElements.Projectile;
 
 public class MainScreen extends AndroidScreen {
 

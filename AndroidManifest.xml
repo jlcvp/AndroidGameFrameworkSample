@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Launcher"
+            android:name="Launcher"
             android:theme="@style/AppBaseTheme" >
 ]
             <intent-filter>

@@ -1,4 +1,4 @@
-package spaceAndinvaders;
+package com.leleusoft.spaceAndinvaders;
 
 import com.leleusoft.gameframework.Screen;
 import com.leleusoft.gameframework.implementation.AndroidGame;

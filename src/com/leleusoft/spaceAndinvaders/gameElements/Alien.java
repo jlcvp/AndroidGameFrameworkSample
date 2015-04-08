@@ -1,13 +1,13 @@
-package spaceAndinvaders.gameElements;
+package com.leleusoft.spaceAndinvaders.gameElements;
 
-import spaceAndinvaders.GameAssets;
-import spaceAndinvaders.MovingDirection;
-import spaceAndinvaders.frameworkHelpers.Animation;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 
 import com.leleusoft.gameframework.Image;
+import com.leleusoft.spaceAndinvaders.GameAssets;
+import com.leleusoft.spaceAndinvaders.MovingDirection;
+import com.leleusoft.spaceAndinvaders.frameworkHelpers.Animation;
 
 public class Alien extends GenericGameObject {
 	public static final int DEAD_MAX_TIME = 700; //ms

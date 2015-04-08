@@ -1,9 +1,9 @@
-package spaceAndinvaders.gameElements;
+package com.leleusoft.spaceAndinvaders.gameElements;
 
-import spaceAndinvaders.MovingDirection;
 import android.graphics.Point;
 
 import com.leleusoft.gameframework.Image;
+import com.leleusoft.spaceAndinvaders.MovingDirection;
 
 public class PlayerCannon extends GenericGameObject{
 	//canvas size = anything x 448 //scaled related to 448 in device aspect ratio
