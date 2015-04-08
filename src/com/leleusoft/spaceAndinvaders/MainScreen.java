@@ -11,7 +11,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
-import com.leleusoft.gameframework.FPSCounter;
 import com.leleusoft.gameframework.Game;
 import com.leleusoft.gameframework.Input.TouchEvent;
 import com.leleusoft.gameframework.Sound;
@@ -19,6 +18,8 @@ import com.leleusoft.gameframework.implementation.AndroidGraphics;
 import com.leleusoft.gameframework.implementation.AndroidScreen;
 import com.leleusoft.spaceAndinvaders.gameElements.Alien;
 import com.leleusoft.spaceAndinvaders.gameElements.FloatingHelloWorld;
+import com.leleusoft.spaceAndinvaders.gameElements.Joystick;
+import com.leleusoft.spaceAndinvaders.gameElements.Joystick.JoystickState;
 import com.leleusoft.spaceAndinvaders.gameElements.PlayerCannon;
 import com.leleusoft.spaceAndinvaders.gameElements.Projectile;
 
@@ -36,18 +37,20 @@ public class MainScreen extends AndroidScreen {
 	Sound shootSound;
 	Sound alienKillSound;
 	int score,lives,highScore;
+	Joystick joystick;
 
 	//Help Objects 
 	Paint font;
 
-	int fps;
-//	FPSCounter mFPSCounter = new FPSCounter() {
-//
-//		@Override
-//		protected void logOutput() {		
-//			fps = frames;
-//		}
-//	};
+
+
+	//	FPSCounter mFPSCounter = new FPSCounter() {
+	//
+	//		@Override
+	//		protected void logOutput() {		
+	//			fps = frames;
+	//		}
+	//	};
 
 	Rect button_fire;
 
@@ -59,19 +62,21 @@ public class MainScreen extends AndroidScreen {
 		createAliens();
 		shootSound = GameAssets.shoot_sound;
 		alienKillSound = GameAssets.alien_death_sound;
-		
+
 		font = new Paint();
 		Typeface typeface = Typeface.createFromAsset(((Activity)game).getAssets(), "space_invaders.ttf");
 		font.setTypeface(typeface);
 		font.setTextSize(20);
 		font.setAntiAlias(true);
-		
+
 		lives = 3;
 
 		button_fire = new Rect(game.getGraphics().getWidth()- BUTTON_WIDTH -DEFAULT_PADDING, 
 				game.getGraphics().getHeight() - DEFAULT_PADDING -BUTON_HEIGHT,
 				game.getGraphics().getWidth()-DEFAULT_PADDING, 
 				game.getGraphics().getHeight() - DEFAULT_PADDING);
+
+		joystick = new Joystick(new Point(30+DEFAULT_PADDING,button_fire.top));
 
 	}
 
@@ -163,34 +168,48 @@ public class MainScreen extends AndroidScreen {
 		{
 			switch(event.type)
 			{
-			case TouchEvent.TOUCH_DOWN:
+				case TouchEvent.TOUCH_DOWN:
 
-				if(button_fire.contains(event.x, event.y) && projectile == null)
-				{
-					projectile = new Projectile(new Point(cannon.getPosition().x+cannon.getImage().getWidth()/2,cannon.getPosition().y-8));
-					shootSound.play(1.0f);
-
-				}
-				else{
-					cannon.setMoving(true);
-
-					if(event.x<=game.getGraphics().getWidth()/2)
+					if(button_fire.contains(event.x, event.y) && projectile == null)
 					{
-						cannon.setMovingDirecion(MovingDirection.LEFT);
+						projectile = new Projectile(new Point(cannon.getPosition().x+cannon.getImage().getWidth()/2,cannon.getPosition().y-8));
+						shootSound.play(1.3f);
 					}
-					else
+					else if(joystick.getElementBoundaries().contains(event.x, event.y))
 					{
-						cannon.setMovingDirecion(MovingDirection.RIGHT);
+						joystick.setheadPosition(event.x);
+						cannon.setMoving(true);
+						cannon.setMovingDirecion(joystick.getDirection());
 					}
-				}
-				break;
+					break;
 
-			case TouchEvent.TOUCH_UP:
-				cannon.setMoving(false);					
+				case TouchEvent.TOUCH_UP:
+					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
+					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
+					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
+					
+					if(event.x<=game.getGraphics().getWidth()/2 && joystick.getState() == JoystickState.DRAGGED)
+					{
+						joystick.releaseJoystick();
+						cannon.setMoving(false);
+						cannon.setMovingDirecion(MovingDirection.STAY);
+					}
+					break;
+
+				case TouchEvent.TOUCH_DRAGGED:
+					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
+					if(event.x<=game.getGraphics().getWidth()/2 && joystick.getState() == JoystickState.DRAGGED)
+					{
+						joystick.setheadPosition(event.x);
+						cannon.setMovingDirecion(joystick.getDirection());
+					}
+
+					break;
 			}			
 		}
 
 	}
+
 
 	@Override
 	public void paint(float deltaTime) {
@@ -203,9 +222,6 @@ public class MainScreen extends AndroidScreen {
 		{
 			drawProjectile(g);
 		}
-
-
-
 	}
 
 
@@ -216,7 +232,7 @@ public class MainScreen extends AndroidScreen {
 		g.drawRect(button_fire.left, button_fire.top, button_fire.width(), button_fire.height(), Color.RED);
 		font.setTextAlign(Align.CENTER);
 		g.drawString("FIRE", button_fire.centerX(), button_fire.centerY(), font);
-		
+
 		font.setTextAlign(Align.LEFT);
 		font.setColor(Color.WHITE);		
 		g.drawString("SCORE< 1 >   HI-SCORE", DEFAULT_PADDING, DEFAULT_PADDING, font);
@@ -225,12 +241,12 @@ public class MainScreen extends AndroidScreen {
 		font.setTextSize(20);
 		font.setTextAlign(Align.RIGHT);
 		font.setColor(Color.YELLOW);
-		g.drawString("FPS: "+fps , game.getGraphics().getWidth()-DEFAULT_PADDING, DEFAULT_PADDING, font);	
-		
+		//		g.drawString("FPS: "+fps , game.getGraphics().getWidth()-DEFAULT_PADDING, DEFAULT_PADDING, font);	
+		//		
 		//green bottom line
 		g.drawRect(0, button_fire.top -50, g.getWidth()-1, 2, Color.rgb(32, 255, 32));
-		
-		
+
+
 		//lives
 		font.setTextAlign(Align.LEFT);
 		g.drawString("LIVES: "+lives, DEFAULT_PADDING-15,button_fire.top-25 , font);
@@ -238,6 +254,11 @@ public class MainScreen extends AndroidScreen {
 		{
 			g.drawImage(GameAssets.player_cannon, DEFAULT_PADDING+100 +(35*i), button_fire.top - 45);
 		}
+
+		//joystick		
+		g.drawImage(joystick.joystick_pad, joystick.getPadPosition().x, joystick.getPadPosition().y);
+		g.drawImage(joystick.joystick_head, joystick.getHeadPosition().x, joystick.getHeadPosition().y);
+
 	}
 
 	private void drawProjectile(AndroidGraphics g) {

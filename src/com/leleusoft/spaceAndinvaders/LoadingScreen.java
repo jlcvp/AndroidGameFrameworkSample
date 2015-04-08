@@ -34,6 +34,8 @@ public class LoadingScreen extends AndroidScreen {
 		GameAssets.alien1[0] = g.newImage("aliens/alien1_1.png", ImageFormat.ARGB8888);
 		GameAssets.alien1[1] = g.newImage("aliens/alien1_2.png", ImageFormat.ARGB8888);
 		GameAssets.dead_alien = g.newImage("aliens/alien_death.png", ImageFormat.ARGB8888);
+		GameAssets.joystick_head = g.newImage("joystick_head.png", ImageFormat.ARGB8888);
+		GameAssets.joystick_pad = g.newImage("joystick_pad.png", ImageFormat.ARGB8888);
 		GameAssets.shoot_sound = game.getAudio().createSound("sounds/shoot.mp3");
 		GameAssets.alien_death_sound = game.getAudio().createSound("sounds/alien_death.mp3");
 

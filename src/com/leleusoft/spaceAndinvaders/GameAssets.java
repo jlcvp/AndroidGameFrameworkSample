@@ -10,5 +10,7 @@ public class GameAssets {
 	public static Image dead_alien;
 	public static Sound shoot_sound;
 	public static Sound alien_death_sound;
+	public static Image joystick_head;
+	public static Image joystick_pad;
 
 }
