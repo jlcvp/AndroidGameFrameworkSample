@@ -1,4 +1,4 @@
-package simpleGameDemo.gameElements;
+package spaceAndinvaders.gameElements;
 
 import android.graphics.Point;
 import android.graphics.Rect;

@@ -1,4 +1,4 @@
-package simpleGameDemo.frameworkHelpers;
+package spaceAndinvaders.frameworkHelpers;
 
 import java.util.ArrayList;
 

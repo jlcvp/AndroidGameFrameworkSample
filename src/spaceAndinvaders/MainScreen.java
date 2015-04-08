@@ -1,12 +1,12 @@
-package simpleGameDemo;
+package spaceAndinvaders;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import simpleGameDemo.gameElements.Alien;
-import simpleGameDemo.gameElements.FloatingHelloWorld;
-import simpleGameDemo.gameElements.PlayerCannon;
-import simpleGameDemo.gameElements.Projectile;
+import spaceAndinvaders.gameElements.Alien;
+import spaceAndinvaders.gameElements.FloatingHelloWorld;
+import spaceAndinvaders.gameElements.PlayerCannon;
+import spaceAndinvaders.gameElements.Projectile;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -41,13 +41,13 @@ public class MainScreen extends AndroidScreen {
 	Paint font;
 
 	int fps;
-	FPSCounter mFPSCounter = new FPSCounter() {
-
-		@Override
-		protected void logOutput() {		
-			fps = frames;
-		}
-	};
+//	FPSCounter mFPSCounter = new FPSCounter() {
+//
+//		@Override
+//		protected void logOutput() {		
+//			fps = frames;
+//		}
+//	};
 
 	Rect button_fire;
 
@@ -221,7 +221,7 @@ public class MainScreen extends AndroidScreen {
 		font.setColor(Color.WHITE);		
 		g.drawString("SCORE< 1 >   HI-SCORE", DEFAULT_PADDING, DEFAULT_PADDING, font);
 		g.drawString(""+score, DEFAULT_PADDING+20, DEFAULT_PADDING+(int)font.getTextSize()+5, font);
-		mFPSCounter.logFrame();
+		//mFPSCounter.logFrame();
 		font.setTextSize(20);
 		font.setTextAlign(Align.RIGHT);
 		font.setColor(Color.YELLOW);

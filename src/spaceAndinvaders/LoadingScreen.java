@@ -1,4 +1,4 @@
-package simpleGameDemo;
+package spaceAndinvaders;
 
 import com.leleusoft.gameframework.Game;
 import com.leleusoft.gameframework.Graphics;

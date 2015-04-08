@@ -1,6 +1,6 @@
-package simpleGameDemo.gameElements;
+package spaceAndinvaders.gameElements;
 
-import simpleGameDemo.MovingDirection;
+import spaceAndinvaders.MovingDirection;
 import android.graphics.Point;
 
 import com.leleusoft.gameframework.Image;

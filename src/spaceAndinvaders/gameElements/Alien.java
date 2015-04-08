@@ -1,8 +1,8 @@
-package simpleGameDemo.gameElements;
+package spaceAndinvaders.gameElements;
 
-import simpleGameDemo.GameAssets;
-import simpleGameDemo.MovingDirection;
-import simpleGameDemo.frameworkHelpers.Animation;
+import spaceAndinvaders.GameAssets;
+import spaceAndinvaders.MovingDirection;
+import spaceAndinvaders.frameworkHelpers.Animation;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
