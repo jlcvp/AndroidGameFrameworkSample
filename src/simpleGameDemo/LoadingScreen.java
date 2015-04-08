@@ -35,6 +35,7 @@ public class LoadingScreen extends AndroidScreen {
 		GameAssets.alien1[1] = g.newImage("aliens/alien1_2.png", ImageFormat.ARGB8888);
 		GameAssets.dead_alien = g.newImage("aliens/alien_death.png", ImageFormat.ARGB8888);
 		GameAssets.shoot_sound = game.getAudio().createSound("sounds/shoot.mp3");
+		GameAssets.alien_death_sound = game.getAudio().createSound("sounds/alien_death.mp3");
 
 		game.setScreen(new MainScreen(game));
 		//super.update(deltaTime); 
@@ -45,8 +46,6 @@ public class LoadingScreen extends AndroidScreen {
 	 */
 	@Override
 	public void paint(float deltaTime) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

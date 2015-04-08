@@ -9,5 +9,6 @@ public class GameAssets {
 	public static Image[] alien1;
 	public static Image dead_alien;
 	public static Sound shoot_sound;
+	public static Sound alien_death_sound;
 
 }

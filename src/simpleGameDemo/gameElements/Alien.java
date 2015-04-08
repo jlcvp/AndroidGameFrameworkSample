@@ -5,6 +5,7 @@ import simpleGameDemo.MovingDirection;
 import simpleGameDemo.frameworkHelpers.Animation;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.leleusoft.gameframework.Image;
 
@@ -24,13 +25,14 @@ public class Alien extends GenericGameObject {
 				Point initialPosition, MovingDirection initialMovingDiretion)
 	{
 		position = initialPosition;
-		colisionRect = new Rect(position.x, position.y,position.x+26, position.y+16);
+		colisionRect = new Rect(position.x, position.y-4,position.x+26, position.y+16+4); //height = 24
 		sprites = new Animation();
 		for(Image i:animationSprites)
 		{
 			sprites.addFrame(i, frameTime);
 		}
 		state = State.ALIVE;
+		
 	}
 	
 	@Override

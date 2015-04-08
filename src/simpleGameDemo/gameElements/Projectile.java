@@ -2,8 +2,6 @@ package simpleGameDemo.gameElements;
 
 import android.graphics.Point;
 
-import com.leleusoft.gameframework.Sound;
-
 public class Projectile{
 	
 	Point position;	
@@ -14,7 +12,8 @@ public class Projectile{
 	
 	public void update(long deltaTime)
 	{
-		position.y-= (int)Math.floor(deltaTime/1.5d);
+		int step=(int)Math.floor(deltaTime/1.5d);		
+		position.y-= step<30?step:30; //lag Threshold, will avoid laser passing through alien without killing
 	}
 	
 	public Point getPosition()
