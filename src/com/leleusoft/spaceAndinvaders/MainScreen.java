@@ -186,6 +186,7 @@ public class MainScreen extends AndroidScreen {
 					break;
 
 				case TouchEvent.TOUCH_UP:
+					//TODO: fix this later
 					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
 					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
 					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
@@ -242,9 +243,7 @@ public class MainScreen extends AndroidScreen {
 		else
 			g.drawImage(GameAssets.button_fire_unpressed, button_fire.left, button_fire.top);
 
-//		g.drawRect(button_fire.left, button_fire.top, button_fire.width(), button_fire.height(), Color.RED);
-//		font.setTextAlign(Align.CENTER);
-//		g.drawString("FIRE", button_fire.centerX(), button_fire.centerY(), font);
+
 
 
 		//SCORE
@@ -254,11 +253,6 @@ public class MainScreen extends AndroidScreen {
 		g.drawString("SCORE< 1 >   HI-SCORE", DEFAULT_PADDING, DEFAULT_PADDING, font);
 		g.drawString(""+score, DEFAULT_PADDING+20, DEFAULT_PADDING+(int)font.getTextSize()+5, font);
 
-
-		//mFPSCounter.logFrame();
-
-		//		g.drawString("FPS: "+fps , game.getGraphics().getWidth()-DEFAULT_PADDING, DEFAULT_PADDING, font);	
-		//
 
 		//green bottom line
 		g.drawRect(0, button_fire.top -50, g.getWidth()-1, 2, Color.rgb(32, 255, 32));

@@ -2,7 +2,6 @@ package com.leleusoft.spaceAndinvaders.gameElements;
 
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.leleusoft.gameframework.Image;
 import com.leleusoft.spaceAndinvaders.GameAssets;
