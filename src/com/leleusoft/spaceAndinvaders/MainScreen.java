@@ -53,12 +53,13 @@ public class MainScreen extends AndroidScreen {
 	//	};
 
 	Rect button_fire;
+	boolean isFireButtonPressed;
 
 
 	public MainScreen(Game game) {
 		super(game);
 		cannon = new PlayerCannon(new Point(game.getGraphics().getWidth()/2,game.getGraphics().getHeight()), GameAssets.player_cannon);
-
+		isFireButtonPressed = false;
 		createAliens();
 		shootSound = GameAssets.shoot_sound;
 		alienKillSound = GameAssets.alien_death_sound;
@@ -174,6 +175,7 @@ public class MainScreen extends AndroidScreen {
 					{
 						projectile = new Projectile(new Point(cannon.getPosition().x+cannon.getImage().getWidth()/2,cannon.getPosition().y-8));
 						shootSound.play(1.3f);
+						isFireButtonPressed = true;
 					}
 					else if(joystick.getElementBoundaries().contains(event.x, event.y))
 					{
@@ -187,13 +189,18 @@ public class MainScreen extends AndroidScreen {
 					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
 					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
 					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
-					
+
 					if(event.x<=game.getGraphics().getWidth()/2 && joystick.getState() == JoystickState.DRAGGED)
 					{
 						joystick.releaseJoystick();
 						cannon.setMoving(false);
 						cannon.setMovingDirecion(MovingDirection.STAY);
 					}
+					else
+					{
+						isFireButtonPressed = false;
+					}
+
 					break;
 
 				case TouchEvent.TOUCH_DRAGGED:
@@ -228,26 +235,38 @@ public class MainScreen extends AndroidScreen {
 
 
 
-	private void drawUI(AndroidGraphics g) {		
-		g.drawRect(button_fire.left, button_fire.top, button_fire.width(), button_fire.height(), Color.RED);
-		font.setTextAlign(Align.CENTER);
-		g.drawString("FIRE", button_fire.centerX(), button_fire.centerY(), font);
+	private void drawUI(AndroidGraphics g) {
 
+		if(isFireButtonPressed)
+			g.drawImage(GameAssets.button_fire_pressed, button_fire.left, button_fire.top);
+		else
+			g.drawImage(GameAssets.button_fire_unpressed, button_fire.left, button_fire.top);
+
+//		g.drawRect(button_fire.left, button_fire.top, button_fire.width(), button_fire.height(), Color.RED);
+//		font.setTextAlign(Align.CENTER);
+//		g.drawString("FIRE", button_fire.centerX(), button_fire.centerY(), font);
+
+
+		//SCORE
 		font.setTextAlign(Align.LEFT);
-		font.setColor(Color.WHITE);		
+		font.setColor(Color.WHITE);	
+
 		g.drawString("SCORE< 1 >   HI-SCORE", DEFAULT_PADDING, DEFAULT_PADDING, font);
 		g.drawString(""+score, DEFAULT_PADDING+20, DEFAULT_PADDING+(int)font.getTextSize()+5, font);
+
+
 		//mFPSCounter.logFrame();
-		font.setTextSize(20);
-		font.setTextAlign(Align.RIGHT);
-		font.setColor(Color.YELLOW);
+
 		//		g.drawString("FPS: "+fps , game.getGraphics().getWidth()-DEFAULT_PADDING, DEFAULT_PADDING, font);	
-		//		
+		//
+
 		//green bottom line
 		g.drawRect(0, button_fire.top -50, g.getWidth()-1, 2, Color.rgb(32, 255, 32));
 
 
 		//lives
+		font.setTextSize(20);		
+		font.setColor(Color.YELLOW);
 		font.setTextAlign(Align.LEFT);
 		g.drawString("LIVES: "+lives, DEFAULT_PADDING-15,button_fire.top-25 , font);
 		for(int i=0;i<lives-1;i++)

@@ -36,8 +36,15 @@ public class LoadingScreen extends AndroidScreen {
 		GameAssets.dead_alien = g.newImage("aliens/alien_death.png", ImageFormat.ARGB8888);
 		GameAssets.joystick_head = g.newImage("joystick_head.png", ImageFormat.ARGB8888);
 		GameAssets.joystick_pad = g.newImage("joystick_pad.png", ImageFormat.ARGB8888);
+		GameAssets.button_fire_pressed = g.newImage("fire_btn_pressed.png", ImageFormat.ARGB8888);
+		GameAssets.button_fire_unpressed = g.newImage("fire_btn_unpressed.png", ImageFormat.ARGB8888);
+		
+		
+		
+		
 		GameAssets.shoot_sound = game.getAudio().createSound("sounds/shoot.mp3");
 		GameAssets.alien_death_sound = game.getAudio().createSound("sounds/alien_death.mp3");
+		
 
 		game.setScreen(new MainScreen(game));
 		//super.update(deltaTime); 
