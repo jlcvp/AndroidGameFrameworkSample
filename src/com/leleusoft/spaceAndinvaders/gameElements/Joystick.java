@@ -66,9 +66,15 @@ public class Joystick {
 		if(headPosition>0)
 		{
 			if(headPosition<37)
+			{
 				direction=JoyDirection.RIGHT_SOFT;
+			}
 			else
-				direction = JoyDirection.RIGHT_HARD;			
+			{
+				direction = JoyDirection.RIGHT_HARD;
+				
+			}
+			
 		}
 		else
 		{
@@ -79,6 +85,7 @@ public class Joystick {
 			else
 			{
 				direction = JoyDirection.LEFT_HARD;
+				
 			}
 		}		
 	}

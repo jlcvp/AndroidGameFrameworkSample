@@ -4,6 +4,7 @@ import com.leleusoft.gameframework.Game;
 import com.leleusoft.gameframework.Graphics;
 import com.leleusoft.gameframework.Graphics.ImageFormat;
 import com.leleusoft.gameframework.Image;
+import com.leleusoft.gameframework.Sound;
 import com.leleusoft.gameframework.implementation.AndroidScreen;
 
 public class LoadingScreen extends AndroidScreen {
@@ -30,9 +31,21 @@ public class LoadingScreen extends AndroidScreen {
 		Graphics g = game.getGraphics();
 		
 		GameAssets.player_cannon = g.newImage("player_cannon.png",  ImageFormat.ARGB8888);
+		
+		
+		GameAssets.alien0 = new Image[2];
+		GameAssets.alien0[0] = g.newImage("aliens/alien0_1.png", ImageFormat.ARGB8888);
+		GameAssets.alien0[1] = g.newImage("aliens/alien0_2.png", ImageFormat.ARGB8888);
+		
 		GameAssets.alien1 = new Image[2];
 		GameAssets.alien1[0] = g.newImage("aliens/alien1_1.png", ImageFormat.ARGB8888);
-		GameAssets.alien1[1] = g.newImage("aliens/alien1_2.png", ImageFormat.ARGB8888);
+		GameAssets.alien1[1] = g.newImage("aliens/alien1_2.png", ImageFormat.ARGB8888);		
+		
+		GameAssets.alien2 = new Image[2];
+		GameAssets.alien2[0] = g.newImage("aliens/alien2_1.png", ImageFormat.ARGB8888);
+		GameAssets.alien2[1] = g.newImage("aliens/alien2_2.png", ImageFormat.ARGB8888);
+		
+		
 		GameAssets.dead_alien = g.newImage("aliens/alien_death.png", ImageFormat.ARGB8888);
 		GameAssets.joystick_head = g.newImage("joystick_head.png", ImageFormat.ARGB8888);
 		GameAssets.joystick_pad = g.newImage("joystick_pad.png", ImageFormat.ARGB8888);
@@ -41,6 +54,13 @@ public class LoadingScreen extends AndroidScreen {
 		
 		
 		
+		
+		
+		GameAssets.bg = new Sound[4];
+		for(int i=0; i<4;i++)
+		{
+			GameAssets.bg[i] = game.getAudio().createSound("sounds/bg_"+(i+1)+".mp3");
+		}
 		
 		GameAssets.shoot_sound = game.getAudio().createSound("sounds/shoot.mp3");
 		GameAssets.alien_death_sound = game.getAudio().createSound("sounds/alien_death.mp3");

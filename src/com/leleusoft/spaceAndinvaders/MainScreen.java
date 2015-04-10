@@ -12,11 +12,13 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 
 import com.leleusoft.gameframework.Game;
+import com.leleusoft.gameframework.Image;
 import com.leleusoft.gameframework.Input.TouchEvent;
 import com.leleusoft.gameframework.Sound;
 import com.leleusoft.gameframework.implementation.AndroidGraphics;
 import com.leleusoft.gameframework.implementation.AndroidScreen;
 import com.leleusoft.spaceAndinvaders.gameElements.Alien;
+import com.leleusoft.spaceAndinvaders.gameElements.AlienController;
 import com.leleusoft.spaceAndinvaders.gameElements.FloatingHelloWorld;
 import com.leleusoft.spaceAndinvaders.gameElements.Joystick;
 import com.leleusoft.spaceAndinvaders.gameElements.Joystick.JoystickState;
@@ -25,15 +27,21 @@ import com.leleusoft.spaceAndinvaders.gameElements.Projectile;
 
 public class MainScreen extends AndroidScreen {
 
-	private static final int BUTTON_WIDTH = 60;
-	private static final int BUTON_HEIGHT = 40;
+	private static final int BUTTON_WIDTH = 90;
+	private static final int BUTTON_HEIGHT = 60;
 	private static final int DEFAULT_PADDING = 30;
+	
+	enum GameState
+	{
+		READY, RUNNING, PAUSED, 
+	}
 
 	//declare your game objects here	
 	FloatingHelloWorld floatingObject;
 	PlayerCannon cannon;
 	Projectile projectile;
-	List<Alien> enemies;
+	
+	AlienController alienController;
 	Sound shootSound;
 	Sound alienKillSound;
 	int score,lives,highScore;
@@ -73,26 +81,44 @@ public class MainScreen extends AndroidScreen {
 		lives = 3;
 
 		button_fire = new Rect(game.getGraphics().getWidth()- BUTTON_WIDTH -DEFAULT_PADDING, 
-				game.getGraphics().getHeight() - DEFAULT_PADDING -BUTON_HEIGHT,
+				game.getGraphics().getHeight() - DEFAULT_PADDING -BUTTON_HEIGHT,
 				game.getGraphics().getWidth()-DEFAULT_PADDING, 
 				game.getGraphics().getHeight() - DEFAULT_PADDING);
 
 		joystick = new Joystick(new Point(30+DEFAULT_PADDING,button_fire.top));
+		
+		
+		
 
 	}
 
 	private void createAliens() {
-		enemies = new ArrayList<Alien>();
+		List<Alien> enemies = new ArrayList<Alien>();
 		Alien alien;
 		projectile=null;
+		Image[] img = GameAssets.alien1; //default case error
 		for(int i=0; i<5; i++){
 			for(int j=0;j<11;j++)
 			{
-				alien = new Alien(GameAssets.alien1, 700, new Point(DEFAULT_PADDING + (22+10)*j , 240+DEFAULT_PADDING + 32*i), null);
+				
+				switch (i) {
+					case 0:
+						img = GameAssets.alien2;
+						break;
+					case 1:
+					case 2:
+						img= GameAssets.alien1;						
+						break;
+					case 3:
+					case 4:
+						img = GameAssets.alien0;
+						break;
+				}
+				alien = new Alien(img, 700, new Point(DEFAULT_PADDING + (22+10)*j , 240+DEFAULT_PADDING + 32*i), null);
 				enemies.add(alien);
-			}
-			System.gc();
-		}		
+			}		
+		}
+		alienController = new AlienController(enemies);
 	}
 
 	@Override
@@ -101,7 +127,7 @@ public class MainScreen extends AndroidScreen {
 
 		handleTouchEvents();
 		cannon.update(0);
-		updateAliens((long)deltaTime);
+		
 		if(projectile!=null) // if projectile is on screen(exists) 
 		{
 			projectile.update((long)deltaTime);
@@ -111,56 +137,25 @@ public class MainScreen extends AndroidScreen {
 			}
 		}
 
-
-		handleColisions();
-		handleCleannings();
+		alienController.update((long)deltaTime);
+		int tempscore = 0;
+		tempscore=alienController.handleColisionsAndScore(projectile);
+		if(tempscore>0)
+		{
+			score+=tempscore;
+			projectile = null;
+		}
+		alienController.handleCleannings();
 
 
 		super.update(deltaTime); //this is called to sync FPS of your game
 	}
 
-	private void handleCleannings() {
-		ArrayList<Alien> temp = new ArrayList<Alien>(enemies.size());
+	
 
-		for(Alien i:enemies)
-		{
-			if(i.shouldRemove())
-			{
-				temp.add(i);
-			}
-		}
+	
 
-		for(Alien i:temp)
-		{
-			enemies.remove(i);
-		}
-
-	}
-
-	private void handleColisions() {
-		if(projectile != null)
-			for(Alien alien:enemies)
-			{
-				if(alien.isAlive() && (alien.getColisionRect().contains(projectile.getPosition().x, projectile.getPosition().y) 
-						||alien.getColisionRect().contains(projectile.getPosition().x, projectile.getPosition().y+14)))
-				{
-					alien.kill();
-					score+=25;
-					projectile=null;
-					alienKillSound.play(1.0f);
-					//shootSound.stop(); //in the original arcade, the sound didn't stop at colision
-					break;
-				}
-			}
-
-	}
-
-	private void updateAliens(long deltaTime) {
-		for(Alien alien:enemies)
-		{
-			alien.update(deltaTime);
-		}		
-	}
+	
 
 	private void handleTouchEvents() {
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
@@ -174,7 +169,7 @@ public class MainScreen extends AndroidScreen {
 					if(button_fire.contains(event.x, event.y) && projectile == null)
 					{
 						projectile = new Projectile(new Point(cannon.getPosition().x+cannon.getImage().getWidth()/2,cannon.getPosition().y-8));
-						shootSound.play(1.3f);
+						shootSound.play(1.0f);
 						isFireButtonPressed = true;
 					}
 					else if(joystick.getElementBoundaries().contains(event.x, event.y))
@@ -191,7 +186,7 @@ public class MainScreen extends AndroidScreen {
 					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
 					//HEAVY WORKAROUND, but fast! (XGH FEELINGS), don't do this at home
 
-					if(event.x<=game.getGraphics().getWidth()/2 && joystick.getState() == JoystickState.DRAGGED)
+					if(joystick.getState() == JoystickState.DRAGGED)
 					{
 						joystick.releaseJoystick();
 						cannon.setMoving(false);
@@ -211,6 +206,11 @@ public class MainScreen extends AndroidScreen {
 						joystick.setheadPosition(event.x);
 						cannon.setMovingDirecion(joystick.getDirection());
 					}
+					else if(event.x > game.getGraphics().getWidth()/2 && !button_fire.contains(event.x, event.y))
+					{
+						joystick.releaseJoystick();
+						cannon.setMoving(false);						
+					}
 
 					break;
 			}			
@@ -225,7 +225,7 @@ public class MainScreen extends AndroidScreen {
 		g.clearScreen(Color.BLACK);
 		g.drawImage(cannon.getImage(), cannon.getPosition().x, cannon.getPosition().y);	
 		drawUI(g);
-		drawAliens(g);
+		alienController.drawAliens(g);
 		if(projectile!=null)
 		{
 			drawProjectile(g);
@@ -238,10 +238,11 @@ public class MainScreen extends AndroidScreen {
 
 	private void drawUI(AndroidGraphics g) {
 
+		//fire button
 		if(isFireButtonPressed)
-			g.drawImage(GameAssets.button_fire_pressed, button_fire.left, button_fire.top);
+			g.drawScaledImage(GameAssets.button_fire_pressed, button_fire.left, button_fire.top, BUTTON_WIDTH, BUTTON_HEIGHT);
 		else
-			g.drawImage(GameAssets.button_fire_unpressed, button_fire.left, button_fire.top);
+			g.drawScaledImage(GameAssets.button_fire_unpressed, button_fire.left, button_fire.top, BUTTON_WIDTH, BUTTON_HEIGHT);
 
 
 
@@ -279,13 +280,7 @@ public class MainScreen extends AndroidScreen {
 
 	}
 
-	private void drawAliens(AndroidGraphics g) {
-		for(Alien alien:enemies)
-		{
-			g.drawImage(alien.getImage(),alien.getPosition().x,alien.getPosition().y);
-		}
-
-	}
+	
 
 	@Override
 	public void pause() {		
