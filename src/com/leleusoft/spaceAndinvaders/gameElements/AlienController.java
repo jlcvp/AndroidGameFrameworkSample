@@ -6,6 +6,7 @@ import java.util.List;
 import com.leleusoft.gameframework.Sound;
 import com.leleusoft.gameframework.implementation.AndroidGraphics;
 import com.leleusoft.spaceAndinvaders.GameAssets;
+import com.leleusoft.spaceAndinvaders.MovingDirection;
 
 public class AlienController {
 	List<Alien> list;
@@ -14,6 +15,8 @@ public class AlienController {
 	int currentBgSound;
 	Sound[] bg;
 	Sound alienKillSound;
+	int relativeAlienPosition;
+	MovingDirection alienMovingDirection = MovingDirection.RIGHT;
 
 	public AlienController(List<Alien> enemylist)
 	{
@@ -22,6 +25,7 @@ public class AlienController {
 		this.list = enemylist;
 		bg = GameAssets.bg;
 		alienKillSound = GameAssets.alien_death_sound;
+		relativeAlienPosition = -4;
 	}
 	
 	public void update(long elapsedTime)
@@ -31,16 +35,55 @@ public class AlienController {
 		{
 			loop_timer =0;
 			currentBgSound= (currentBgSound+1)%bg.length;
-			if(currentBgSound==0 && bg_interval>50)
-			{
-				bg_interval -=25;
-			}
+			
+			moveAliens();
+//			if(currentBgSound==0 && bg_interval>50)
+//			{
+//				bg_interval -=25;
+//			}
 			bg[currentBgSound].play(0.8f);			
 		}
 		
 		updateAliens(elapsedTime);
 	}
 	
+	private void moveAliens() {
+		
+		if(alienMovingDirection==MovingDirection.RIGHT)
+		{
+			relativeAlienPosition++;
+			if(relativeAlienPosition>7)
+			{
+				relativeAlienPosition=6;
+				alienMovingDirection = MovingDirection.LEFT;
+			}
+		}
+		else
+		{
+			relativeAlienPosition--;
+			if(relativeAlienPosition<(-7))
+			{
+				relativeAlienPosition=-6;
+				alienMovingDirection = MovingDirection.RIGHT;
+			}
+		}
+		
+		for(Alien alien:list)
+		{
+			if(alienMovingDirection==MovingDirection.RIGHT)
+			{
+				alien.position.x+=6; //number of pixels to move right
+				alien.updateColisionRect();
+			}
+			else
+			{
+				alien.position.x-=6; //number of pixels to move right
+				alien.updateColisionRect();
+			}
+		}
+		
+	}
+
 	public void drawAliens(AndroidGraphics g) {
 		for(Alien alien:list)
 		{

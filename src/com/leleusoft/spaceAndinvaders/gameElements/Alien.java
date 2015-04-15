@@ -85,4 +85,8 @@ public class Alien extends GenericGameObject {
 		return state == State.ALIVE;
 	}
 
+	public void updateColisionRect() {
+		colisionRect.set(position.x, position.y-4,position.x+26, position.y+16+4);		
+	}
+
 }
